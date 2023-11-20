@@ -1,0 +1,75 @@
+﻿@page
+@model PetDiary.Pages.Home.AboutModel
+@using Microsoft.AspNetCore.Mvc
+@using PetDiary.Model
+@inject ApplicationDbContext context
+@{
+    ViewData["Title"] = "About Page";
+    Layout = "~/Pages/Shared/_HomeLayout.cshtml";
+    ApplicationUser user = context.users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content" class="content content-full-width">
+
+                            <div class="profile-content">
+                                <div class="tab-content p-0">
+
+                                    <div class="tab-pane fade in active show" id="profile-about">
+                                        <div class="table-responsive">
+                                            <table class="table table-profile">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <h3 style="font-family: Poppins, sans-serif; color: #9452b8;">Personal Information </h3>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="field">Firstname</td>
+                                                        <td>
+                                                            <input class="form-control input-inline" style="width: 20rem;" name="FirstName" placeholder="First Name" value="@user.FirstName">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="field">Lastname</td>
+                                                        <td>
+                                                            <input class="form-control input-inline" style="width: 20rem;" name="LastName" placeholder="Last Name" value="@user.LastName">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="field">Email Address</td>
+                                                        <td>
+                                                            <input class="form-control input-inline" style="width: 20rem;" name="Email" placeholder="Email Address" value="@user.Email">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="field">Username</td>
+                                                        <td>
+                                                            <input class="form-control input-inline" style="width: 20rem;" name="UserName" placeholder="Username" value="@user.UserName">
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿@page
+@model PetDiary.Pages.Account.LoginModel
+@{
+	ViewData["Title"] = "Login Page";
+	Layout = "~/Pages/Shared/_AccountLayout.cshtml";
+}
+
+	<!-- main -->
+	<div class="main-w3layouts wrapper">
+		<div class="main-agileinfo">
+            <div class="agileits-top">
+                <form method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input class="text email" type="email" name="email" placeholder="Email" required="" asp-for="loginformdata.email">
+                    <span asp-for="loginformdata.email" class="text-danger"></span>
+
+                    <input class="text" type="password" name="password" placeholder="Password" required="" asp-for="loginformdata.password">
+                    <span asp-for="loginformdata.password" class="text-danger"></span>
+
+                    <input type="submit" value="LOGIN">
+                </form>
+                <p>Don't have an Account? <a asp-area="" asp-page="/Account/Register"> Register Now!</a></p>
+            </div>
+		</div>
+		<!-- copyright -->
+		<div class="colorlibcopy-agile">
+			<p>© 2018 Colorlib Signup Form. All rights reserved | Design by <a href="https://colorlib.com/" target="_blank">Colorlib</a></p>
+		</div><br /><br /><br /><br/>
+		<!-- //copyright -->
+		<ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<!-- //main -->
+
+

@@ -1,0 +1,225 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="profile-page tx-13">
+        <div class="row profile-body">
+
+            @*<div class="d-none d-md-block col-md-4 col-xl-3 left-wrapper"></div>*@
+            
+
+            <div class="col-md-8 col-xl-6 middle-wrapper">
+                <div class="row">
+
+                    <!-- CREATING POST -->
+                    <div class="card social-timeline-card" style="margin-top: 1.5rem;">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Share your insights</a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card-body">
+                            <form method="post" runat="server">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade active show" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="status">Status</label>
+                                            <select asp-for="postData.status" class="form-control" rows="3" placeholder="What are you feeling right now?">
+                                                <option value="👼 feeling blessed">&#128124; feeling blessed </option>
+                                                <option value="😄 feeling happy">&#128516; feeling happy </option>
+                                                <option value="😢 feeling sad">&#128546; feeling sad </option>
+                                                <option value="😡 feeling angry">&#128545; feeling angry </option>
+                                                <option value="😔 feeling tired">&#128532; feeling tired </option>
+                                                <option value="🤪 feeling goofy">&#129322; feeling goofy </option>
+                                                <option value="😍 feeling inlove">&#128525; feeling inlove </option>
+                                                <option value="😎 feeling awesome">&#128526; feeling awesome </option>
+                                                <option value="💕 feeling love">&#128149; feeling love </option>
+                                                <option value="💔 feeling broken">&#128148; feeling broken </option>
+                                                <option value="💪 feeling strong">&#128170; feeling strong </option>
+                                                <option value="💸 feeling rich">&#128184; feeling rich </option>
+                                                <option value="🤒 feeling sick">&#129298; feeling sick </option>
+                                                <option value="😴 feeling sleepy">&#128564; feeling sleepy </option>
+                                                <option value="😩 feeling disappointed">&#128553; feeling disappointed </option>
+                                            </select><br />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="message">Post</label>
+                                            <textarea asp-for="postData.post" class="form-control" id="message" rows="3" placeholder="What are you thinking?"></textarea><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="btn-toolbar justify-content-between">
+                                    <div class="btn-group">
+                                        <button type="submit" runat="server" class="btn btn-primary">Share</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                    @foreach (var item in Model.updates)
+                     {
+                        <div class="col-md-12 grid-margin userActivities">
+                            <div class="card rounded">
+
+                                <!-- DISPLAY USER -->
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img src="@("~/profile/"+item.user.ProfilePicture)" asp-append-version="true" class="img-xs rounded-circle" alt="" />
+
+                                            <div class="ml-2">
+                                                <p>@item.user.FirstName @item.user.LastName</p>
+                                                <p class="tx-11 text-muted">@item.postCreated</p>
+                                            </div>
+                                        </div>
+                                        @if (@Model.user.Id == @item.userId)
+                                        {
+
+                                            <div class="dropdown">
+                                                <button class="btn p-0" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis"></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                                    <button class="dropdown-item" asp-route-id="@item.id" data-toggle="modal" data-target="#editModal" onclick="editFeed(`@item.id`, `@item.post`, `@item.status`)">Edit</button> |
+                                                    <a class="dropdown-item" asp-page="Index" asp-page-handler="Delete" asp-route-id="@item.id" onclick="return confirm('Are you sure you want to delete this post?')">Delete</a>
+                                                </div>
+                                            </div>
+                                        }
+                                        </div>
+                                </div>
+
+                                <!-- DISPLAY POST -->
+                                <div class="card-body">
+                                    <p class="mb-3 tx-14"><i class='fa fa-quote-left'></i>&nbsp;&nbsp;&nbsp;@item.post&nbsp;&nbsp;&nbsp;<i class='fa fa-quote-right'></i>&nbsp; <strong>-</strong> @item.status</p>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="d-flex post-actions share">
+                                        <a class="d-flex align-items-center text-muted mr-4" style="margin-right: 2rem; text-decoration: none;" href="#" title="#"><i class="fa fa-thumbs-up"></i>&nbsp;&nbsp;Likes</a>
+                                        <a class="d-flex align-items-center text-muted mr-4" style="text-decoration: none;" href="#" title="#"><i class="fa fa-comments"></i>&nbsp;&nbsp;Comments</a>
+                                    </div>
+                                </div>
+
+                                <!-- DISPLAY COMMENT -->
+                                <ul class="simpleListings comments">
+                                    @foreach (var comment in @item.comments)
+                                    {
+                                        <li>
+                                            <a href="#" title="#" class="itemOptions"><i class="fa fa-cog"></i></a>
+                                            <a href="#" title="#" class="image">
+                                                <img src="@("~/profile/"+item.user.ProfilePicture)" asp-append-version="true" alt="" width="44" height="44" />
+                                            </a>
+
+                                            <div class="c">
+                                                <div class="title"><a style="font-size: 15px; text-decoration: none;" href="#" title="#">@comment.user.FirstName @comment.user.LastName</a></div>
+                                                <div class="info">@comment.createdOn</div>
+                                                <p>@comment.comment</p>
+                                            </div>
+
+                                        </li>
+                                    }
+                                    <li style="margin-top: 8px;">
+                                        <a href="#" title="#" class="image">
+                                            <img src="@("~/profile/"+item.user.ProfilePicture)" asp-append-version="true" alt="" width="44" height="44" />
+
+                                        </a>
+                                        <div class="c">
+                                            <form method="post" asp-page-handler="Comment" asp-route-id="@item.id">
+                                                <textarea rows="1" asp-for="userComment.comment" placeholder="Start typing here..." class="form-control js-autogrow" style="overflow: hidden; word-wrap: break-word; height: 42px;"></textarea>
+                                                <button type="submit" class="btn btn-primary btn-icon-text btn-edit-profile">Post</button>
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                     }
+
+                </div>
+            </div>
+             
+
+            @*<div class="d-none d-xl-block col-xl-3 right-wrapper"></div>*@
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Update Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+
+                    <input type="hidden" id="edit_id" asp-for="postData.id">
+
+                    <div class="form-group row">
+                        <label for="edit_status">Status</label>
+                        <select id="edit_status" asp-for="postData.status" class="form-control" rows="3">
+                            <option selected>What are you feeling right now?</option>
+                            <option value="👼 feeling blessed">&#128124; feeling blessed </option>
+                            <option value="😄 feeling happy">&#128516; feeling happy </option>
+                            <option value="😢 feeling sad">&#128546; feeling sad </option>
+                            <option value="😡 feeling angry">&#128545; feeling angry </option>
+                            <option value="😔 feeling tired">&#128532; feeling tired </option>
+                            <option value="🤪 feeling goofy">&#129322; feeling goofy </option>
+                            <option value="😍 feeling inlove">&#128525; feeling inlove </option>
+                            <option value="😎 feeling awesome">&#128526; feeling awesome </option>
+                            <option value="💕 feeling love">&#128149; feeling love </option>
+                            <option value="💔 feeling broken">&#128148; feeling broken </option>
+                            <option value="💪 feeling strong">&#128170; feeling strong </option>
+                            <option value="💸 feeling rich">&#128184; feeling rich </option>
+                            <option value="🤒 feeling sick">&#129298; feeling sick </option>
+                            <option value="😴 feeling sleepy">&#128564; feeling sleepy </option>
+                            <option value="😩 feeling disappointed">&#128553; feeling disappointed </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="edit_post">Post</label>
+                        <textarea asp-for="postData.post" class="form-control" id="edit_post" rows="3" placeholder="What are you thinking?"></textarea><br>
+                    </div>
+
+                    <hr>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" asp-page-handler="Edit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            @* <div class="modal-footer">
+                </div> *@
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{ 
+
+<script>
+    function editFeed(id, post, status) {
+        console.log(id, post, status);
+        document.getElementById("edit_id").value = id;
+        document.getElementById("edit_post").value = post;
+        document.getElementById("edit_status").value = status;
+    };
+</script>
+}

@@ -1,0 +1,12 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PetDiary.Model
+@inject SignInManager<ApplicationUser> _signInManager
+@if (_signInManager.IsSignedIn(User))
+{
+    Layout = "_HomeLayout";
+}
+else
+{
+    Layout = "_AccountLayout";
+    Layout = "_Layout";
+}

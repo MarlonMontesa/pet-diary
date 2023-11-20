@@ -1,0 +1,32 @@
+﻿@page
+@model PetDiary.Pages.AnonymousModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- INDEX -->
+
+<section id="hero">
+    <div class="hero-container">
+        <div class="carousel-inner" role="listbox">
+
+            <!-- Home Page -->
+            <div class="carousel-item active" style="background-image: url(../img/petbg4.jpg);">
+                <div class="carousel-container">
+                    <div class="carousel-content">
+                        <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Pet Diary</span></h2>
+                        <p class="animate__animated animate__fadeInUp">
+                            Pet Diary is an all in one web application for your furr babies. Your one stop for your pet
+                            society. Be friends, Communicate, and Have fun with other furr parents!
+                        </p>
+                        <div>
+                            <a class="btn-menu animate__animated animate__fadeInUp scrollto" href="/Account/Login">Login</a>
+                            <a class="btn-book animate__animated animate__fadeInUp scrollto" href="/Account/Register">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,77 @@
+﻿@page
+@model PetDiary.Pages.Home.MessageModel
+@{
+    ViewData["Title"] = "Message Page";
+    Layout = "~/Pages/Shared/_HomeLayout.cshtml";
+    var userName = User.Identity.Name;    
+
+}
+
+<h1 class="h3 mb-3">Messages</h1>
+
+<div class="card">
+    <div class="row g-0">
+        <div class="col-12 col-lg-5 col-xl-3 border-right">
+
+            <div class="px-4 d-none d-md-block">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <input type="text" class="form-control my-3" placeholder="Search...">
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <hr class="d-block d-lg-none mt-1 mb-0">
+        </div>
+        <div class="col-12 col-lg-7 col-xl-9">
+            <div class="py-2 px-4 border-bottom d-none d-lg-block">
+                <div class="d-flex align-items-center py-1">
+                    <div class="position-relative">
+                        
+                    </div>
+                    <div class="flex-grow-1 pl-3">
+                        <strong>&nbsp;Chat To All</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="position-relative">
+                <div class="chat-messages p-4">
+                    
+                        <input type="hidden" value="@userName" id="user">
+
+
+                        <!--<ul id="messageList" class="list-group"></ul>-->
+                        
+                        <input type="hidden" id="time">
+
+                            <div id="messageList">
+
+                                
+                            </div>
+                            
+
+                    
+                    
+                </div>
+                                </div>
+            <form method="post" asp-page-handler="Message">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="flex-grow-0 py-3 px-4 border-top">
+                    <div class="input-group">
+                        <input type="text" asp-for="messagess.Text" class="form-control" id="txtMessage" placeholder="Type your message">
+                        <input type="submit" class="btn btn-primary" value="Send Message" id="btnSend">
+                    </div>
+                </div>
+            </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <script src="~/lib/jquery/dist/jquery.js"></script>
+                    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+                    <script src="~/js/chat.js"></script>

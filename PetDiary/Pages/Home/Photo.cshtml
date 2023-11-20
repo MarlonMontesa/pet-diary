@@ -1,0 +1,114 @@
+﻿@page
+@model PetDiary.Pages.Home.PhotoModel
+@{
+    ViewData["Title"] = "Photo Page";
+}
+
+<div class="container posts-content">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <!-- HEADER -->
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Pet Photos</h3>
+                    </div>
+                    <!-- CREATING PHOTO -->
+                    <div class="panel-content panel-activity">
+                        <form method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <textarea asp-for="photoData.photoCaption" name="photoCaption" placeholder="Share what you've been up to..." class="form-control"></textarea><br />
+                            <a asp-action="Image"><input asp-for="photoData.photoFile" type="file" name="photoFile" class="btn-link" title="" data-toggle="tooltip" data-original-title="Post an Image" accept="image/*"></a>
+                            <button type="submit" class="btn btn-sm btn-rounded btn-info" style="float: right;">Post</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            @foreach (var item in Model.updates)
+            {
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <!-- DISPLAY USER -->
+                        <div class="media mb-3">
+                            <i class="activity__list__icon fa fa-question-circle-o"></i>
+                            <div class="activity__list__header">
+                                <img src="@("~/profile/" + item.user.ProfilePicture)" asp-append-version="true" alt="" />
+                                <a style="text-decoration:none;">@item.user.FirstName @item.user.LastName</a> posted <a style="text-decoration:none;">@item.photoCreated</a>
+                                @if (@Model.user.Id == @item.userId)
+                                {
+
+                                    <div class="dropdown" style="float:right;">
+                                        <button class="btn p-0" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                            <button class="dropdown-item" asp-route-id="@item.id" data-toggle="modal" data-target="#editModal" onclick="editPhoto(`@item.id`, `@item.photoCaption`)">Edit</button> |
+                                            <a class="dropdown-item" asp-page="Photo" asp-page-handler="Delete" asp-route-id="@item.id" onclick="return confirm('Are you sure you want to delete this photo?')">Delete</a>
+                                        </div>
+                                    </div>
+                                }
+                                </div>
+
+                        </div>
+                        <!-- DISPLAY PHOTO -->
+                        <p>@item.photoCaption</p>
+                        <img src="@("~/images/"+item.photoName)" asp-append-version="true" width="250" height="250" class="img-fluid" /><br />
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="" class="d-inline-block text-muted">
+                            <strong>123</strong><small> React</small>
+                        </a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Update Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+
+                    <input type="hidden" id="edit_id" asp-for="photoData.id">
+
+                    <div class="form-group row">
+                        <label for="edit_photoCaption">Details</label>
+                        <textarea asp-for="photoData.photoCaption" id="edit_photoCaption" rows="3" placeholder="Share what you've been up to..." class="form-control"></textarea><br />
+                    </div>
+
+                    <hr>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" asp-page-handler="Edit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        function editPhoto(id, photoCaption) {
+            console.log(id, photoCaption);
+            document.getElementById("edit_id").value = id;
+            document.getElementById("edit_photoCaption").value = photoCaption;
+        };
+    </script>
+}

@@ -1,0 +1,64 @@
+﻿@page
+@model PetDiary.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register Page";
+    Layout = "~/Pages/Shared/_AccountLayout.cshtml";
+}
+
+
+<!-- main -->
+<div class="main-w3layouts wrapper">
+    <h1>Register Form</h1>
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <a asp-action="Image"><input class="text email" type="file" name="PictureFile" accept="image/*" asp-for="formdata.PictureFile"></a>
+                <span asp-for="formdata.PictureFile" class="text-danger"></span>
+
+                <input class="text" type="text" name="FirstName" placeholder="First Name" required="" asp-for="formdata.FirstName">
+                <span asp-for="formdata.FirstName" class="text-danger"></span>
+
+                <input class="text email" type="text" name="LastName" placeholder="Last Name" required="" asp-for="formdata.LastName">
+                <span asp-for="formdata.LastName" class="text-danger"></span>
+
+                <input class="text" type="text" name="UserName" placeholder="Username" required="" asp-for="formdata.UserName">
+                <span asp-for="formdata.UserName" class="text-danger"></span>
+
+                <input class="text email" type="email" name="Email" placeholder="Email" required="" asp-for="formdata.Email">
+                <span asp-for="formdata.Email" class="text-danger"></span>
+
+                <input class="text" type="password" name="password" placeholder="Password" required="" asp-for="formdata.password">
+                <span asp-for="formdata.password" class="text-danger"></span>
+
+                <input class="text w3lpass" type="password" name="confirmpassword" placeholder="Confirm Password" required="" asp-for="formdata.ConfirmPassword">
+                <span asp-for="formdata.ConfirmPassword" class="text-danger"></span>
+
+                <input type="submit" value="REGISTER">
+            </form>
+            <p>Already have an Account? <a asp-area="Account" asp-page="/Account/Login"> Login Now!</a></p>
+        </div>
+    </div>
+    <!-- copyright -->
+    <div class="colorlibcopy-agile">
+        <p>© 2018 Colorlib Signup Form. All rights reserved | Design by <a href="https://colorlib.com/" target="_blank">Colorlib</a></p>
+    </div>
+    <!-- //copyright -->
+    <ul class="colorlib-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<!-- //main -->
+@*@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}*@

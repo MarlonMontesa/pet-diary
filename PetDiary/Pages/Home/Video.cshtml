@@ -1,0 +1,115 @@
+﻿@page
+@model PetDiary.Pages.Home.VideoModel
+@{
+    ViewData["Title"] = "Video Page";
+    Layout = "~/Pages/Shared/_HomeLayout.cshtml";
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="row activity">
+        <div class="col-md-12">
+
+            <div class="panel">
+                <!-- HEADER -->
+                <div class="panel-heading">
+                    <h3 class="panel-title">Pet Videos</h3>
+                </div>
+                <!-- CREATING VIDEO  -->
+                <div class="panel-content panel-activity">
+                    <form method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <textarea asp-for="videoData.videoCaption" name="videoCaption" placeholder="Share what you've been up to..." class="form-control"></textarea><br />
+                        <a asp-action="Video"><input asp-for="videoData.videoFile" type="file" name="videoFile" id="videoFile" class="btn-link" data-toggle="tooltip" data-original-title="Post a Video" accept="video/*" onchange="selectedVideo(this);"></a>
+                        <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+            @foreach (var item in Model.updates)
+            {
+                <div class="panel panel-default">
+                    <!-- DISPLAY USER -->
+                    <div class="panel-heading">
+                        <img src="@("~/profile/" + item.user.ProfilePicture)" asp-append-version="true" class="img-rounded" alt="" />
+                        <div class="pull-right text-right">
+                            <i class="fa fa-calendar"></i>@item.videoCreated
+                        </div>
+                        <div><strong>@item.user.FirstName @item.user.LastName</strong></div>
+                        @if (@Model.user.Id == @item.userId)
+                        {
+
+                            <div class="dropdown">
+                                <button class="btn p-0" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                    <button class="dropdown-item" asp-route-id="@item.id" data-toggle="modal" data-target="#editModal" onclick="editVideo(`@item.id`, `@item.videoCaption`)">Edit</button> |
+                                    <a class="dropdown-item" asp-page="Video" asp-page-handler="Delete" asp-route-id="@item.id" onclick="return confirm('Are you sure you want to delete this video?')">Delete</a>
+                                </div>
+                            </div>
+                        }
+                        </div>
+                    <!-- DISPLAY VIDEO -->
+                    <div class="panel-body">
+                        <p>@item.videoCaption</p>
+                        <div class="video-container">
+                            <iframe runat="server" type="video/mp4" id="videoName" src="@Url.Content("~/videos/"+item.videoName)" width="500" height="281" frameborder="0" allowfullscreen></iframe>
+                        </div>
+
+                        <div class="actions">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-link"><i class="fas fa-heart"></i> Heart</button>
+                            </div>
+                            <div class="pull-right"><strong>1.789</strong> People react to this</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Update Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+
+                    <input type="hidden" id="edit_id" asp-for="videoData.id">
+
+                    <div class="form-group row">
+                        <label for="edit_videoCaption">Caption</label>
+                        <textarea asp-for="videoData.videoCaption" id="edit_videoCaption" rows="3" placeholder="Share what you've been up to..." class="form-control"></textarea><br />
+                    </div>
+
+                    <hr>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" asp-page-handler="Edit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        function editVideo(id, videoCaption) {
+            console.log(id, videoCaption);
+            document.getElementById("edit_id").value = id;
+            document.getElementById("edit_videoCaption").value = videoCaption;
+        };
+    </script>
+}
+    </div>
+</div>

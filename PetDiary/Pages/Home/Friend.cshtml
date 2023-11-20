@@ -1,0 +1,49 @@
+﻿@page
+@model PetDiary.Pages.Home.FriendModel
+@{
+    ViewData["Title"] = "Friend Page";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+<div class="container">
+    <div class="content contact-list">
+        <div class="card card-default">
+
+            <!-- HEADER -->
+            <div class="panel-heading">
+                <h3 class="panel-title">Pet Friends</h3>
+            </div>
+            <div class="card-body px-3 px-md-5">
+                <div class="row">
+                    @foreach (var item in Model.updates)
+                    {
+                        <div class="col-lg-6 col-xl-4 col-md-6 col-sm-12">
+                            <div class="card card-default p-4">
+                                <a href="javascript:0" class="media text-secondary" style="text-decoration: none;" data-toggle="modal" data-target="#modal-contact">
+                                    <img src="@("~/profile/" + item.ProfilePicture)" asp-append-version="true" class="mr-3 img-fluid rounded" alt="" />
+                                    <div class="media-body">
+                                        <h5 class="mt-0 mb-2 text-dark">@item.FirstName @item.LastName</h5>
+                                        <ul class="list-unstyled text-smoke text-smoke">
+                                            <li class="d-flex">
+                                                <i class="mdi mdi-email mr-1"></i>
+                                                <span>@item.Email</span>
+                                            </li>
+                                            <li class="d-flex">
+                                                <i class="fas fa-user mr-1"></i>
+                                                <span>@item.UserName</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+       
+       
+    </div>
+</div>
